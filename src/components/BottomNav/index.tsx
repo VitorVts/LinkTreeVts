@@ -34,13 +34,13 @@ const BottomNav = () => {
       value={getActiveRoute()}
       onChange={(_event, newValue) => {
         if (newValue === 0) navigate('/');
-        if (newValue === 1) navigate('/admin');
+        if (newValue === 1) navigate('/login');
       }}
     >
       {location.pathname !== '/' && (
         <BottomNavigationAction label="Home" icon={<HomeIcon />} />
       )}
-      <BottomNavigationAction label="Admin" icon={<AdminPanelSettingsIcon />} />
+      <BottomNavigationAction label="Login" icon={<AdminPanelSettingsIcon />} />
     </BottomNavigation>
   );
 };

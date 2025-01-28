@@ -61,12 +61,12 @@ const Admin = () => {
   const [editingLink, setEditingLink] = useState<{ title: string; url: string; id?: string } | null>(null);
   const [linkList, setLinkList] = useState(links);
   const [linkToDelete, setLinkToDelete] = useState<string | null>(null);
-
+  const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        navigate("/login"); // Redireciona para login se não estiver autenticado
+        navigate("/admin"); // Redireciona para login se não estiver autenticado
       }
       setLoading(false);
     });
@@ -349,9 +349,3 @@ const Admin = () => {
 };
 
 export default Admin;
-
-
-function setUser(_currentUser: User) {
-  throw new Error("Function not implemented.");
-}
-
