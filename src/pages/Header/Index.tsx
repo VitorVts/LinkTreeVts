@@ -9,7 +9,7 @@ import {
   ContainerText,
 } from "./styles";
 import logo from "../../assets/Banner.svg";
-import perfil from "../../assets/perfil.jpg";
+import Profile from "../../assets/Perfil.jpg";
 import { Typography } from "@mui/material";
 import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
 import PhoneForwardedIcon from "@mui/icons-material/PhoneForwarded";
@@ -26,7 +26,7 @@ const Header = () => {
     <StyledContainer>
       <BannerContainer>
         <Banner src={logo} alt="Banner" />
-        <Avatar src={perfil} alt="Avatar" />
+        <Avatar src={Profile} alt="Avatar" />
       </BannerContainer>
 
       <InfoContainer>
