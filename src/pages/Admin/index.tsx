@@ -23,7 +23,7 @@ import useFetchUser from "../../hooks/useFetchUser";
 import useFetchLinks from "../../hooks/useFetchLinks";
 import { doc, setDoc, deleteDoc } from "firebase/firestore";
 import { db, auth } from "../../services/firebase"; // Ajuste o caminho conforme necessário
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const modalStyle = {
@@ -42,7 +42,6 @@ const modalStyle = {
 
 const Admin = () => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [user, setUser] = useState<unknown>(null);
   const navigate = useNavigate();
 
   const { userData, loading: userLoading, error } = useFetchUser("1");
@@ -59,15 +58,14 @@ const Admin = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [newLink, setNewLink] = useState({ title: "", url: "" });
-  const [editingLink, setEditingLink] = useState(null);
+  const [editingLink, setEditingLink] = useState<{ title: string; url: string; id?: string } | null>(null);
   const [linkList, setLinkList] = useState(links);
-  const [linkToDelete, setLinkToDelete] = useState(null);
+  const [linkToDelete, setLinkToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-      } else {
         navigate("/login"); // Redireciona para login se não estiver autenticado
       }
       setLoading(false);
@@ -92,7 +90,9 @@ const Admin = () => {
     setLinkList(links);
   }, [links]);
 
-  const handleInputChange = (e: { target: { name: unknown; value: unknown; }; }) => {
+  const handleInputChange = (e: {
+    target: { name: string; value: unknown };
+  }) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -111,7 +111,7 @@ const Admin = () => {
     }
   };
 
-  const handleOpenModal = (link = null) => {
+  const handleOpenModal = (link: { title: string; url: string; id?: string } | null = null) => {
     setEditingLink(link);
     setOpenModal(true);
     if (link) {
@@ -130,7 +130,7 @@ const Admin = () => {
     target: { name: unknown; value: unknown };
   }) => {
     const { name, value } = e.target;
-    setNewLink({ ...newLink, [name]: value });
+    setNewLink({ ...newLink, [name as string]: value });
   };
 
   const handleAddLink = async () => {
@@ -140,7 +140,11 @@ const Admin = () => {
           link.id === editingLink.id ? { ...link, ...newLink } : link
         );
         setLinkList(updatedLinks);
-        await setDoc(doc(db, "links", editingLink.id), { ...newLink });
+        if (editingLink.id) {
+          await setDoc(doc(db, "links", editingLink.id), { ...newLink });
+        } else {
+          console.error("Link ID is undefined");
+        }
       } else {
         const newLinkObj = { id: Date.now().toString(), ...newLink };
         setLinkList([...linkList, newLinkObj]);
@@ -151,7 +155,8 @@ const Admin = () => {
     }
   };
 
-  const handleOpenDeleteModal = (linkId) => {
+
+  const handleOpenDeleteModal = (linkId: string) => {
     setLinkToDelete(linkId);
     setOpenDeleteModal(true);
   };
@@ -335,7 +340,7 @@ const Admin = () => {
         variant="contained"
         color="secondary"
         onClick={handleLogout}
-        sx={{ marginTop: 3,position: "absolute", top: 0, right: 20 }}
+        sx={{ marginTop: 3, position: "absolute", top: 0, right: 20 }}
       >
         Sair
       </Button>
@@ -344,3 +349,9 @@ const Admin = () => {
 };
 
 export default Admin;
+
+
+function setUser(_currentUser: User) {
+  throw new Error("Function not implemented.");
+}
+
