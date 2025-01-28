@@ -61,12 +61,15 @@ const Admin = () => {
   const [editingLink, setEditingLink] = useState<{ title: string; url: string; id?: string } | null>(null);
   const [linkList, setLinkList] = useState(links);
   const [linkToDelete, setLinkToDelete] = useState<string | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = process.env.NEXT_PUBLIC_IGNORE_USER_STATE === 'true' ? [null, () => {}] : useState<User | null>(null);
+
+  
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        navigate("/admin"); // Redireciona para login se não estiver autenticado
+        navigate("/admin");
       }
       setLoading(false);
     });
