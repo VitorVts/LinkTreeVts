@@ -54,29 +54,26 @@ const Header = () => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            bgcolor: "background.paper",
-            boxShadow: 24,
+            bgcolor: "background.transparent",
             p: 2,
             outline: "none",
-            borderRadius: "8px",
+            borderRadius: "100%",
           }}
         >
-          <IconButton
-            onClick={handleCloseModal}
-            sx={{ position: "absolute", top: 8, right: 8, color: "#ffff" }}
-          >
-            <CloseIcon />
-          </IconButton>
           <AnimatePresence>
             {isModalOpen && (
               <motion.img
                 src={Profile}
                 alt="Avatar ampliado"
-                style={{ maxWidth: "100%", maxHeight: "90vh", borderRadius: "8px" }}
-                initial={{ scale: 0 }} // Começa com escala 0 (invisível)
-                animate={{ scale: 1 }} // Anima para escala 1 (tamanho normal)
-                exit={{ scale: 0 }} // Anima de volta para escala 0 ao fechar
-                transition={{ duration: 0.3 }} // Duração da animação
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "90vh",
+                  borderRadius: "100%",
+                }}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0 }}
+                transition={{ duration: 0.3 }}
               />
             )}
           </AnimatePresence>
