@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   StyledContainer,
   Banner,
@@ -11,11 +11,10 @@ import {
 } from "./styles";
 import logo from "../../assets/Banner.svg";
 import Profile from "../../assets/Perfil.jpg";
-import { Typography, Modal, Box, IconButton } from "@mui/material";
+import { Typography, Modal, Box} from "@mui/material";
 import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
 import PhoneForwardedIcon from "@mui/icons-material/PhoneForwarded";
 import useFetchUser from "../../hooks/useFetchUser";
-import CloseIcon from "@mui/icons-material/Close";
 import { motion, AnimatePresence } from "framer-motion"; // Importe Framer Motion
 
 const Header = () => {
