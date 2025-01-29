@@ -77,6 +77,13 @@ const Admin = () => {
     return () => unsubscribe();
   }, [navigate]);
 
+
+  useEffect(() => {
+    if (user) {
+      console.log("Usuário autenticado:", user);
+    }
+  }, [user]);
+  
   useEffect(() => {
     if (userData) {
       setFormData({
